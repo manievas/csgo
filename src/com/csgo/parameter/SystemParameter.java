@@ -1,4 +1,4 @@
-package Parameter;
+package com.csgo.parameter;
 
 public class SystemParameter {
 

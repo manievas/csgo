@@ -1,4 +1,4 @@
-package Entity;
+package com.csgo.entity;
 
 public class Player {
 

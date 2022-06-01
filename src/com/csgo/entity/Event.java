@@ -1,4 +1,4 @@
-package Entity;
+package com.csgo.entity;
 
 import java.util.List;
 

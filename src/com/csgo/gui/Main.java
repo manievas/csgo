@@ -1,11 +1,14 @@
-package GUI;
+package com.csgo.gui;
 
 import javax.swing.JOptionPane;
 
-import Entity.Player;
-import Entity.Team;
-import Parameter.SystemParameter;
+import com.csgo.entity.Player;
+import com.csgo.entity.Team;
+import com.csgo.parameter.SystemParameter;
+
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class Main {
 	
@@ -19,7 +22,9 @@ public class Main {
 		List<Player> players = null;
 		List<Player> lista = null;
 		
-		;
+		
+		players = new ArrayList<Player>();
+		lista = new ArrayList<Player>();
 		
         //Start
 		System.out.println("-----------------------------------------------");
@@ -33,7 +38,7 @@ public class Main {
 		
 		;
 		
-		for(c=0; c< SystemParameter.players_per_team ; c++) {
+		for (c=0; c< SystemParameter.players_per_team ; c++) {
 			
 			name = JOptionPane.showInputDialog("Player Name: ");
 			nickname = JOptionPane.showInputDialog("Player NickName: ");
@@ -52,9 +57,6 @@ public class Main {
 		for (Player p : lista) {
 			System.out.println(p.getName());
 		}
-		
-		
-		//PROBAR GUARDAR EN ARRAY EN VEZ DE LISTA
 		
 	}
 	
