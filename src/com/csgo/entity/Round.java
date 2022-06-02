@@ -1,24 +1,27 @@
 package com.csgo.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Round {
 
 	//Attributes
+	private String status;
+
 	private Team looser;
 	
 	private Team winner;
 	
 	private List<Team> teams;
 	
-	private List<Event> events;
+	private List<Kill> kills;
 	
 	//Constructor
-	public Round(Team looser, Team winner, List<Team> teams,  List<Event> events) {
-		this.looser = looser;
-		this.winner = winner;
+	public Round(List<Team> teams,  String status) {
 		this.teams = teams;
-		this.events = events;
+		this.status = status;
+		this.kills = new ArrayList<Kill>();
+		this.teams = new ArrayList<Team>();		
 	}
 
 	
@@ -47,12 +50,18 @@ public class Round {
 		this.teams.add(team);
 	}
 
-	public List<Event> getEvents() {
-		return events;
+	public List<Kill> getKills() {
+		return kills;
 	}
 
-	public void addEvents(Event event) {
-		this.events.add(event);
+	public void addKill(Kill kill) {
+		this.kills.add(kill);
+	}
+	
+	public void endRound(String status, Team looser, Team winner)	{
+		this.status = status;
+		this.looser = looser;
+		this.winner = winner;
 	}
 	
 	
