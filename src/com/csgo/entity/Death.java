@@ -1,20 +1,15 @@
-
 package com.csgo.entity;
 
-public class Kill extends Event{
+public class Death extends Event {
 
 	private Player player;
 	
-	private int count;
-	
 	private int score;
 	
-	public Kill(int value, Player player, int count) {
+	public Death(int value, Player player) {
 		super(value);		
 		this.player = player;
-		this.count = count;		
-		
-		calculateScore(value, this.count);	
+		this.score = value;			
 	}
 
 	public Player getPlayer() {
@@ -24,10 +19,6 @@ public class Kill extends Event{
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-
-	public void calculateScore(int count, int value){
-		this.score = count * value;
-	}
 	
 	public int getScore(){
 		return this.score;
@@ -35,8 +26,6 @@ public class Kill extends Event{
 	
     @Override
     public String toString() {
-        return "Kill de " + this.player.getName() + " Score: " + getScore();
+        return "Suicide de " + this.player.getName() + " Score: " + getScore();
     }
-	
-	
 }

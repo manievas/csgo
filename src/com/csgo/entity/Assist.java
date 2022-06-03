@@ -1,7 +1,6 @@
-
 package com.csgo.entity;
 
-public class Kill extends Event{
+public class Assist extends Event{
 
 	private Player player;
 	
@@ -9,7 +8,7 @@ public class Kill extends Event{
 	
 	private int score;
 	
-	public Kill(int value, Player player, int count) {
+	public Assist(int value, Player player, int count) {
 		super(value);		
 		this.player = player;
 		this.count = count;		
@@ -35,8 +34,6 @@ public class Kill extends Event{
 	
     @Override
     public String toString() {
-        return "Kill de " + this.player.getName() + " Score: " + getScore();
+        return "Assist de " + this.player.getName() + " Score: " + getScore();
     }
-	
-	
 }

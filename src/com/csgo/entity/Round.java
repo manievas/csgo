@@ -14,13 +14,13 @@ public class Round {
 	
 	private List<Team> teams;
 	
-	private List<Kill> kills;
+	private List<Event> events;
 	
 	//Constructor
 	public Round(List<Team> teams,  String status) {
 		this.teams = teams;
 		this.status = status;
-		this.kills = new ArrayList<Kill>();
+		this.events = new ArrayList<Event>();
 		this.teams = new ArrayList<Team>();		
 	}
 
@@ -50,14 +50,14 @@ public class Round {
 		this.teams.add(team);
 	}
 
-	public List<Kill> getKills() {
-		return kills;
+	public List<Event> getEvents() {
+		return events;
 	}
 
-	public void addKill(Kill kill) {
-		this.kills.add(kill);
+	public void addEvent(Event event) {
+		this.events.add(event);
 	}
-	
+		
 	public void endRound(String status, Team looser, Team winner)	{
 		this.status = status;
 		this.looser = looser;

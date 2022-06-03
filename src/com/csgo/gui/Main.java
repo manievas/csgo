@@ -1,16 +1,13 @@
 package com.csgo.gui;
 
+//Standard Packages
 import javax.swing.JOptionPane;
-
-import com.csgo.entity.Player;
-import com.csgo.entity.Team;
-import com.csgo.entity.Kill;
-import com.csgo.entity.Round;
-import com.csgo.parameter.SystemParameter;
-
 import java.util.ArrayList;
 import java.util.List;
 
+//Customs Packagees
+import com.csgo.parameter.SystemParameter;
+import com.csgo.entity.*;
 
 public class Main {
 	
@@ -19,12 +16,16 @@ public class Main {
 		//Variables
 		//Default
 		int c;	
-		int kill_counter = 0;
+		int kill_counter = 0, assist_counter = 0;
+		String he_died = "N", he_suicided = "N";
 		
 		//Objects
 		Player player = null;	
 		Team team = null;
 		Kill kill = null;
+		Assist assist = null;
+		Death death = null;
+		Suicide suicide= null;
 		Round round = null;
 		
 		//Lists
@@ -71,22 +72,55 @@ public class Main {
 		
 		for (Player p : team.getPlayers()) {
 		
+			//Kills
 			kill_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de Kills que tuvo el jugador: " + p.getName() + " (0-5)"));
 			
 			if (kill_counter > 0) {
 				kill = new Kill(SystemParameter.kill_score, p, kill_counter);	
-				round.addKill(kill);
+				round.addEvent(kill);
 			}
 			else {
 				System.out.println("El jugador no tuvo kills");
 			}
 			
+			//Assists
+			assist_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de Assist que tuvo el jugador: " + p.getName() + " (0-5)"));
+			
+			if (assist_counter > 0) {
+				assist = new Assist(SystemParameter.assist_score, p, assist_counter);	
+				round.addEvent(assist);
+			}
+			else {
+				System.out.println("El jugador no tuvo assist");
+			}
+			
+			//Death
+			he_died = JOptionPane.showInputDialog("¿El jugador " + p.getName() + " ha muerto esta ronda? (Y/N): ");
+			
+			if (he_died == "Y") {
+				death = new Death(SystemParameter.death_score, p);	
+				round.addEvent(death);
+			}
+			else {
+				System.out.println("El jugador no ha muerto");
+			}
+			
+			//Suicide
+			he_suicided = JOptionPane.showInputDialog("¿El jugador " + p.getName() + " se suicidó esta ronda? (Y/N): ");
+			
+			if (he_suicided == "Y") {
+				suicide = new Suicide(SystemParameter.suicide_score, p);	
+				round.addEvent(suicide);
+			}
+			else {
+				System.out.println("El jugador no se ha suicidado");
+			}
+			
 		}
 		
 		
-		
-		for (Kill k : round.getKills()) {
-			System.out.println("Jugador: "+k.getPlayer() + " pts: "+ k.getScore());			
+		for (Event e : round.getEvents()) {	
+			System.out.println(e);
 		}
 		
 		
