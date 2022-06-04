@@ -1,11 +1,11 @@
 package com.csgo.entity;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Match {
+public class Game {
 
-	private Date date;
+	private String date;
 	
 	private int duration;
 	
@@ -17,18 +17,18 @@ public class Match {
 	
 	
 	//Constructor
-	public Match(Date date, int duration, String status) {
+	public Game(String date, String status) {
 		this.date = date;
-		this.duration = duration;
-		this.status = status;
+		this.status = status;		
+		this.rounds = new ArrayList<Round>();
 	}
 
 	//Methods	
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

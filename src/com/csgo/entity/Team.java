@@ -14,7 +14,6 @@ public class Team {
 	}
 
 	//Methods
-
 	public List<Player> getPlayers() {
 		return players;
 	}

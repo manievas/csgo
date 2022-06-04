@@ -7,8 +7,6 @@ public class Round {
 
 	//Attributes
 	private String status;
-
-	private Team looser;
 	
 	private Team winner;
 	
@@ -26,14 +24,6 @@ public class Round {
 
 	
 	//Methods
-	public Team getLooser() {
-		return looser;
-	}
-
-	public void setLooser(Team looser) {
-		this.looser = looser;
-	}
-
 	public Team getWinner() {
 		return winner;
 	}
@@ -60,7 +50,6 @@ public class Round {
 		
 	public void endRound(String status, Team looser, Team winner)	{
 		this.status = status;
-		this.looser = looser;
 		this.winner = winner;
 	}
 	

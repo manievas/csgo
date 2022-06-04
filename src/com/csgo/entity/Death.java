@@ -26,6 +26,6 @@ public class Death extends Event {
 	
     @Override
     public String toString() {
-        return "Suicide de " + this.player.getName() + " Score: " + getScore();
+        return "Death " + this.player.getName() + " Score: " + getScore();
     }
 }
