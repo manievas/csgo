@@ -29,4 +29,17 @@ public class SystemParameter {
 	public static int suicide_score = -2;
 	
 	public static int teamkill_score = -1;
+	
+	public static int max_kills_per_round = 5;
+	
+	public static int max_assists_per_round = 5;
+	
+	public static int max_deaths_per_round = 5;
+	
+	public static int max_suicides_per_round = 5;
+	
+	public static int max_teamkills_per_round = 4;
+	
+	public static int teams_per_game = 2;
+	
 }

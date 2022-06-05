@@ -4,8 +4,8 @@ import java.util.List;
 
 public class TT extends Team{
 
-	public TT(List<Player> players) {
-		super(players);
+	public TT(List<Player> players, String name) {
+		super(players, name);
 	}
 	
 }

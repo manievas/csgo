@@ -4,8 +4,8 @@ import java.util.List;
 
 public class CT extends Team{
 	
-	public CT(List<Player> players) {
-		super(players);
+	public CT(List<Player> players, String name) {
+		super(players, name);
 	}
 	
 }

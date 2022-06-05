@@ -10,38 +10,40 @@ public class Round {
 	
 	private Team winner;
 	
-	private List<Team> teams;
+	private TT tt;
+	
+	private CT ct;
 	
 	private List<Event> events;
 	
 	//Constructor
-	public Round(List<Team> teams,  String status) {
-		this.teams = teams;
+	public Round(String status, CT ct, TT tt) {
+		this.tt = tt;
+		this.ct = ct;
 		this.status = status;
 		this.events = new ArrayList<Event>();
-		this.teams = new ArrayList<Team>();		
 	}
 
 	
 	//Methods
 	public Team getWinner() {
-		return winner;
+		return this.winner;
 	}
 
 	public void setWinner(Team winner) {
 		this.winner = winner;
 	}
 
-	public List<Team> getTeams() {
-		return teams;
+	public TT getTT() {
+		return this.tt;
 	}
 
-	public void addTeams(Team team) {
-		this.teams.add(team);
+	public CT getCT() {
+		return this.ct;
 	}
 
 	public List<Event> getEvents() {
-		return events;
+		return this.events;
 	}
 
 	public void addEvent(Event event) {
