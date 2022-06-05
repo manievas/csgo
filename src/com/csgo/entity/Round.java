@@ -16,12 +16,15 @@ public class Round {
 	
 	private List<Event> events;
 	
+	private Bomb bomb;
+	
 	//Constructor
-	public Round(String status, CT ct, TT tt) {
+	public Round(String status, CT ct, TT tt, Bomb bomb) {
 		this.tt = tt;
 		this.ct = ct;
 		this.status = status;
 		this.events = new ArrayList<Event>();
+		this.bomb = bomb;
 	}
 
 	
@@ -54,6 +57,15 @@ public class Round {
 		this.status = status;
 		this.winner = winner;
 	}
+	
+	public Bomb getBomb() {
+		return this.bomb;
+	}
+	
+	public void setBomb(String status) {
+		this.bomb.setStatus(status);
+	}
+	
 	
 	
 	

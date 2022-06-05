@@ -12,6 +12,12 @@ public class SystemParameter {
 			
     public static String status_end_game = "ENDED";
     
+    public static String status_bomb_default = "NOT PLANTED";
+
+    public static String status_bomb_planted = "PLANTED";
+
+    public static String status_bomb_defused = "DEFUSED";
+
     public static int rounds_win_short_game = 9;
 
     public static int rounds_win_long_game = 16;
@@ -29,6 +35,10 @@ public class SystemParameter {
 	public static int suicide_score = -2;
 	
 	public static int teamkill_score = -1;
+	
+	public static int plant_bomb_score = 2;
+	
+	public static int defuse_bomb_score = 2;
 	
 	public static int max_kills_per_round = 5;
 	

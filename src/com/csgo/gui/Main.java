@@ -8,6 +8,7 @@ import java.util.List;
 //Customs Packages
 import com.csgo.parameter.SystemParameter;
 import com.csgo.entity.*;
+import com.csgo.validator.*;
 
 public class Main {
 	
@@ -15,9 +16,9 @@ public class Main {
 		
 		//Variables
 		//Default
-		int p, r, t;	
+		int p, t;	
 		int kill_counter = 0, assist_counter = 0, teamkill_counter = 0;
-		char he_died = 'N', he_suicided = 'N';
+		char he_died = 'N', he_suicided = 'N', he_plant_bomb = 'N', he_defuse_bomb = 'N';
 		
 		//Objects
 		Player player = null;	
@@ -27,9 +28,12 @@ public class Main {
 		Assist assist = null;
 		Death death = null;
 		Suicide suicide= null;
-		Round round = null;
 		TeamKill teamkill = null;
+		Plant_Bomb plant_bomb = null;
+		Bomb_Defused bomb_defused = null;
 		Game game = null; 
+		Round round = null;
+		Bomb bomb = null;
 		String team_name = null;
 		
 		//Lists
@@ -39,6 +43,7 @@ public class Main {
 		
 		//Instance
 		players = new ArrayList<Player>();
+		RoundValidator roundValidator = new RoundValidator();
 		
         //Start
 		System.out.println("-----------------------------------------------");
@@ -65,32 +70,34 @@ public class Main {
 			if(t == 0) {
 				team_name = JOptionPane.showInputDialog("CT name: ");						
 				ct = new CT(players, team_name);
-				players = null;
+				//Preguntar a gonza porque verga no puedo hacer clear o remove aca, sin que CT pierda la lista
+				
 			}
 			else {
+				players.remove(0);
 				team_name = JOptionPane.showInputDialog("TT name: ");		
 				tt = new TT(players, team_name);
-				players = null;
+				
 			}
 			
 		}
 	
-	
-		
-		
 		//Game
 		System.out.println("Creating Game");
 		game = new Game(JOptionPane.showInputDialog("Fecha del partido (DD-MM-YYYY)") , SystemParameter.status_start_game);
 
-		
-		for (r = 0; r < SystemParameter.max_rounds_long_game; r++) {
-				
+		do {
 			//Round
 			System.out.println("Creating Round");
-			round = new Round(SystemParameter.status_start_round, ct, tt);
+			System.out.println("CT size: "+ct.getPlayers().size());
+			System.out.println("TT size: "+tt.getPlayers().size());
+			bomb = new Bomb(SystemParameter.status_bomb_default);
+			
+			round = new Round(SystemParameter.status_start_round, ct, tt, bomb);
 			
 			//Event
 			System.out.println("Entering Events");
+
 			
 			for (Player p2 : round.getCT().getPlayers()) {
 			
@@ -168,93 +175,102 @@ public class Main {
 				else {
 					System.out.println("El jugador no ha tenido teamkills");
 				}
-					
-				for (Player p3 : round.getTT().getPlayers()) {
-					
-					//Kills
-					kill_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de Kills que tuvo el jugador: " + p3.getName() + " (0-5)"));
-					
-					if (kill_counter > 0) {
-						kill = new Kill(SystemParameter.kill_score, p3, kill_counter);	
-						
-						/*
-						System.out.println("Accediendo a un evento en la lista list_event_test" + List_event_test.size() );
-						
-						for(Event e : round.getEvents()) {
-							
-							//Ver como identificar cada evento en su subclase
-							if(e instanceof Kill){
-								
-								Kill kill_test = (Kill)e;
-								System.out.println("Ingresa if(e instanceof Kill)" + kill_test.getScore() );
-							}
-							else {
-								System.out.println("Ingresa Else");
-							}
-							
-						}*/
-						
-						round.addEvent(kill);
-					}
-					else {
-						System.out.println("El jugador no tuvo kills");
-					}
-					
-					//Assists
-					assist_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de Assist que tuvo el jugador: " + p3.getName() + " (0-5)"));
-					
-					if (assist_counter > 0) {
-						assist = new Assist(SystemParameter.assist_score, p3, assist_counter);	
-						round.addEvent(assist);
-					}
-					else {
-						System.out.println("El jugador no tuvo assist");
-					}
-					
-					//Preguntarle a gonza porque el string no funca sin hacerle un charAt(0)
-					
-					//Death
-					he_died = JOptionPane.showInputDialog("¿El jugador " + p3.getName() + " ha muerto esta ronda? (Y/N): ").charAt(0);
-					
-					if (he_died== 'Y') {
-						death = new Death(SystemParameter.death_score, p3);	
-						round.addEvent(death);
-					}
-					else {
-						System.out.println("El jugador no ha muerto: "+he_died);
-					}
-					
-					//Suicide
-					he_suicided = JOptionPane.showInputDialog("¿El jugador " + p3.getName() + " se suicidó esta ronda? (Y/N): ").charAt(0);
-					
-					if (he_suicided == 'Y') {
-						suicide = new Suicide(SystemParameter.suicide_score, p3);	
-						round.addEvent(suicide);
-					}
-					else {
-						System.out.println("El jugador no se ha suicidado: "+he_suicided);
-					}
-					
-					//TeamKill
-					teamkill_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de TeamKill del jugador " + p3.getName() + " (0-4)"));
-					
-					if (teamkill_counter > 0) {
-						teamkill = new TeamKill(SystemParameter.teamkill_score, p3, teamkill_counter);	
-						round.addEvent(teamkill);
-					}
-					else {
-						System.out.println("El jugador no ha tenido teamkills");
-					}
-					
-			} //End For Events
+			}	
 			
-			// Round validation
-			//com.csgo.validator de ronda
+			for (Player p3 : round.getTT().getPlayers()) {
+				
+				//Kills
+				kill_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de Kills que tuvo el jugador: " + p3.getName() + " (0-5)"));
+				
+				if (kill_counter > 0) {
+					kill = new Kill(SystemParameter.kill_score, p3, kill_counter);	
+				
+					round.addEvent(kill);
+				}
+				else {
+					System.out.println("El jugador no tuvo kills");
+				}
+				
+				//Assists
+				assist_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de Assist que tuvo el jugador: " + p3.getName() + " (0-5)"));
+				
+				if (assist_counter > 0) {
+					assist = new Assist(SystemParameter.assist_score, p3, assist_counter);	
+					round.addEvent(assist);
+				}
+				else {
+					System.out.println("El jugador no tuvo assist");
+				}
+				
+				//Preguntarle a gonza porque el string no funca sin hacerle un charAt(0)
+				
+				//Death
+				he_died = JOptionPane.showInputDialog("¿El jugador " + p3.getName() + " ha muerto esta ronda? (Y/N): ").charAt(0);
+				
+				if (he_died== 'Y') {
+					death = new Death(SystemParameter.death_score, p3);	
+					round.addEvent(death);
+				}
+				else {
+					System.out.println("El jugador no ha muerto: "+he_died);
+				}
+				
+				//Suicide
+				he_suicided = JOptionPane.showInputDialog("¿El jugador " + p3.getName() + " se suicidó esta ronda? (Y/N): ").charAt(0);
+				
+				if (he_suicided == 'Y') {
+					suicide = new Suicide(SystemParameter.suicide_score, p3);	
+					round.addEvent(suicide);
+				}
+				else {
+					System.out.println("El jugador no se ha suicidado: "+he_suicided);
+				}
+				
+				//TeamKill
+				teamkill_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de TeamKill del jugador " + p3.getName() + " (0-4)"));
+				
+				if (teamkill_counter > 0) {
+					teamkill = new TeamKill(SystemParameter.teamkill_score, p3, teamkill_counter);	
+					round.addEvent(teamkill);
+				}
+				else {
+					System.out.println("El jugador no ha tenido teamkills");
+				}
+				
+				//Plant Bomb
+				he_plant_bomb = JOptionPane.showInputDialog("¿El jugador " + p3.getName() + " planto la bomba? (Y/N): ").charAt(0);
+				
+				if (he_plant_bomb == 'Y') {
+					plant_bomb = new Plant_Bomb(SystemParameter.plant_bomb_score, p3);	
+					round.setBomb(SystemParameter.status_bomb_planted);
+					round.addEvent(plant_bomb);
+				}
+				else {
+					System.out.println("El jugador no se ha suicidado: "+he_suicided);
+				}
+				
+				//Defused Bomb
+				he_defuse_bomb = JOptionPane.showInputDialog("¿El jugador " + p3.getName() + " defuseo la bomba? (Y/N): ").charAt(0);
+				
+				if (he_defuse_bomb == 'Y') {
+					bomb_defused = new Bomb_Defused(SystemParameter.defuse_bomb_score, p3);	
+					round.setBomb(SystemParameter.status_bomb_defused);
+					round.addEvent(bomb_defused);
+				}
+				else {
+					System.out.println("El jugador no se ha suicidado: "+he_suicided);
+				}
+				
+			}	//End For Events
 			
-			game.addRound(round);
+			
+			// Determinate who wins round
+			
+			game.addRound(roundValidator.validateWinner(round));
 			
 			// Determinate if game was ended 
-
+	
+			
 			System.out.println("End Round");
 			
 			if (game.getRounds().size() == SystemParameter.max_rounds_long_game) {
@@ -266,48 +282,49 @@ public class Main {
 			
 			}
 			else {
+				System.out.println("Game Ended - NO TIE");
 				
 			}
 			
 			
-			//Quien gana la ronda?
 			
-			  //CT
-			    //Player vivo, Mata a 5, Bomba no plantada
-		        //Player vivo, bomba difuseada			
-			    //Player vivo, Tiempo finalizado, bomba no plantada
-			
-			  //TT
-			    //Player vivo, Mata a 5
-			    //Bomba explota
-			   
-			  //
-			
-				
-			// Si Contador de rondas (si cant rondas = 30)
-				//Partido terminado = Empate
-			 //Sino 
-			    //Si rondas ganadas equipo A = 16
-					//Partido terminado = Gano equipo A
-			    //Si rondas ganadas equipo B = 16
-			        //Partido terminado = Gano equipo B
-				//Sino 
-					//Jugar ronda
-			
-			
-			//¿Como se juega la ronda? (Reglas)
-		  	  //CT y TT
-			  // maximo de kills 
-			  // maximo de asistencias 
-			  // maximo de muertes
-			  // maximo de suicidios
-			  // maximo de teamkills
-			  
-			  
-			
-			
-		} //end For Rounds
+		}
+		while (true);
 		
+		//Quien gana la ronda?
+		
+		  //CT
+		    //Player vivo, Mata a 5, Bomba no plantada
+	        //Player vivo, bomba difuseada			
+		    //Player vivo, Tiempo finalizado, bomba no plantada
+		
+		  //TT
+		    //Player vivo, Mata a 5
+		    //Bomba explota
+		   
+		  //
+		
+			
+		// Si Contador de rondas (si cant rondas = 30)
+			//Partido terminado = Empate
+		 //Sino 
+		    //Si rondas ganadas equipo A = 16
+				//Partido terminado = Gano equipo A
+		    //Si rondas ganadas equipo B = 16
+		        //Partido terminado = Gano equipo B
+			//Sino 
+				//Jugar ronda
+		
+		
+		//¿Como se juega la ronda? (Reglas)
+	  	  //CT y TT
+		  // maximo de kills 
+		  // maximo de asistencias 
+		  // maximo de muertes
+		  // maximo de suicidios
+		  // maximo de teamkills
+		  
+			  
 		System.out.println("End program");
 		//for (Event e : round.getEvents()) {	
 		//	System.out.println(e);

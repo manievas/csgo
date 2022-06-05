@@ -33,6 +33,10 @@ public class Player {
 		this.nickname = nickname;
 	}
 	
+	@Override
+	public String toString(){
+		return this.name;
+	}
 	
 	
 }

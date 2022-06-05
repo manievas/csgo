@@ -1,5 +1,6 @@
 package com.csgo.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
@@ -10,14 +11,17 @@ public class Team {
 	private List<Player> players;
 
 	//Constructor
-	public Team(List<Player> players, String name) {		
+	public Team(List<Player> players, String name) {	
+		
+		this.players = new ArrayList<Player>();
+		
 		this.players = players;
 		this.name = name;
 	}
 
 	//Methods
 	public List<Player> getPlayers() {
-		return players;
+		return this.players;
 	}
 
 	public void addPlayers(Player player) {
