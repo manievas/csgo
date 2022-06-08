@@ -78,8 +78,13 @@ public class RoundValidator {
 	private Team validateKills(Round round) {
 		
 		int total_kills_ct = 0, total_kills_tt = 0;
-		/*
 		
+		
+		
+		
+		//evitar instanceof 
+		
+		/*
 		for(Event e : round.getEvents()) {
 			
 			//Ver como identificar cada evento en su subclase

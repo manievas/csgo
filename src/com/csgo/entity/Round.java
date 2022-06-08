@@ -3,6 +3,8 @@ package com.csgo.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.csgo.counter.*;
+
 public class Round {
 
 	//Attributes
@@ -67,7 +69,33 @@ public class Round {
 	}
 	
 	
+	public int getKillsCount() {
+        return new KillCounter(this.events).doCount();
+    }
+
+	public int getAssistsCount() {
+        return new AssistCounter(this.events).doCount();
+	}
 	
+	public int getSuicidesCount() {
+        return new SuicideCounter(this.events).doCount();
+	}
+	
+	public int getTeamKillsCount() {
+        return new TeamKillCounter(this.events).doCount();
+	}
+	
+	public int getDefuseBombCount() {
+        return new DefuseBombCounter(this.events).doCount();
+	}
+	
+	public int getPlantBombCount() {
+        return new PlantBombCounter(this.events).doCount();
+	}
+	
+	public int getDeathsCount() {
+        return new DeathCounter(this.events).doCount();
+	}
 	
 	
 }

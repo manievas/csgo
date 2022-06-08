@@ -28,21 +28,24 @@ public class Main {
 		Assist assist = null;
 		Death death = null;
 		Suicide suicide= null;
-		TeamKill teamkill = null;
-		Plant_Bomb plant_bomb = null;
-		Bomb_Defused bomb_defused = null;
+		TeamKill teamKill = null;
+		PlantBomb plantBomb = null;
+		DefuseBomb defuseBomb = null;
 		Game game = null; 
 		Round round = null;
 		Bomb bomb = null;
 		String team_name = null;
 		
 		//Lists
-		List<Player> players = null;
+		List<Player> ctplayers = null;
+		List<Player> ttplayers = null;
 		List<Team> teams = null;
 		
 		
 		//Instance
-		players = new ArrayList<Player>();
+		ctplayers = new ArrayList<Player>();
+		ttplayers = new ArrayList<Player>();
+		
 		RoundValidator roundValidator = new RoundValidator();
 		
         //Start
@@ -63,21 +66,26 @@ public class Main {
 			for (p=0; p< SystemParameter.players_per_team ; p++) {
 				
 				player = new Player(JOptionPane.showInputDialog("Player Name: "), JOptionPane.showInputDialog("Player NickName: "));		
-				players.add(player);
+				
+				if (t == 0) {
+					ctplayers.add(player);		
+				} 
+				else {
+					ttplayers.add(player);
+				}
 				
 			}
 			
 			if(t == 0) {
 				team_name = JOptionPane.showInputDialog("CT name: ");						
-				ct = new CT(players, team_name);
+				ct = new CT(ctplayers, team_name);
 				//Preguntar a gonza porque verga no puedo hacer clear o remove aca, sin que CT pierda la lista
 				
 			}
 			else {
-				players.remove(0);
+				//players.remove(0);
 				team_name = JOptionPane.showInputDialog("TT name: ");		
-				tt = new TT(players, team_name);
-				
+				tt = new TT(ttplayers, team_name);				
 			}
 			
 		}
@@ -98,7 +106,8 @@ public class Main {
 			//Event
 			System.out.println("Entering Events");
 
-			
+			//Arranca eventos CT
+			System.out.println("Arranca eventos CT");
 			for (Player p2 : round.getCT().getPlayers()) {
 			
 				//Kills
@@ -106,24 +115,6 @@ public class Main {
 				
 				if (kill_counter > 0) {
 					kill = new Kill(SystemParameter.kill_score, p2, kill_counter);	
-					
-					/*
-					System.out.println("Accediendo a un evento en la lista list_event_test" + List_event_test.size() );
-					
-					for(Event e : round.getEvents()) {
-						
-						//Ver como identificar cada evento en su subclase
-						if(e instanceof Kill){
-							
-							Kill kill_test = (Kill)e;
-							System.out.println("Ingresa if(e instanceof Kill)" + kill_test.getScore() );
-						}
-						else {
-							System.out.println("Ingresa Else");
-						}
-						
-					}*/
-					
 					round.addEvent(kill);
 				}
 				else {
@@ -169,14 +160,30 @@ public class Main {
 				teamkill_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de TeamKill del jugador " + p2.getName() + " (0-4)"));
 				
 				if (teamkill_counter > 0) {
-					teamkill = new TeamKill(SystemParameter.teamkill_score, p2, teamkill_counter);	
-					round.addEvent(teamkill);
+					teamKill = new TeamKill(SystemParameter.teamkill_score, p2, teamkill_counter);	
+					round.addEvent(teamKill);
 				}
 				else {
 					System.out.println("El jugador no ha tenido teamkills");
 				}
+				
+				
+				//Defuse Bomb
+				he_defuse_bomb = JOptionPane.showInputDialog("¿El jugador " + p2.getName() + " defuseo la bomba? (Y/N): ").charAt(0);
+				
+				if (he_defuse_bomb == 'Y') {
+					defuseBomb = new DefuseBomb(SystemParameter.defuse_bomb_score, p2);	
+					round.setBomb(SystemParameter.status_bomb_defused);
+					round.addEvent(defuseBomb);
+				}
+				else {
+					System.out.println("El jugador no ha defuseado: "+he_defuse_bomb);
+				}
+				
 			}	
 			
+			//Arranca eventos TT
+			System.out.println("Arranca eventos TT");
 			for (Player p3 : round.getTT().getPlayers()) {
 				
 				//Kills
@@ -230,8 +237,8 @@ public class Main {
 				teamkill_counter = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de TeamKill del jugador " + p3.getName() + " (0-4)"));
 				
 				if (teamkill_counter > 0) {
-					teamkill = new TeamKill(SystemParameter.teamkill_score, p3, teamkill_counter);	
-					round.addEvent(teamkill);
+					teamKill = new TeamKill(SystemParameter.teamkill_score, p3, teamkill_counter);	
+					round.addEvent(teamKill);
 				}
 				else {
 					System.out.println("El jugador no ha tenido teamkills");
@@ -241,30 +248,29 @@ public class Main {
 				he_plant_bomb = JOptionPane.showInputDialog("¿El jugador " + p3.getName() + " planto la bomba? (Y/N): ").charAt(0);
 				
 				if (he_plant_bomb == 'Y') {
-					plant_bomb = new Plant_Bomb(SystemParameter.plant_bomb_score, p3);	
+					plantBomb = new PlantBomb(SystemParameter.plant_bomb_score, p3);	
 					round.setBomb(SystemParameter.status_bomb_planted);
-					round.addEvent(plant_bomb);
+					round.addEvent(plantBomb);
 				}
 				else {
-					System.out.println("El jugador no se ha suicidado: "+he_suicided);
-				}
-				
-				//Defused Bomb
-				he_defuse_bomb = JOptionPane.showInputDialog("¿El jugador " + p3.getName() + " defuseo la bomba? (Y/N): ").charAt(0);
-				
-				if (he_defuse_bomb == 'Y') {
-					bomb_defused = new Bomb_Defused(SystemParameter.defuse_bomb_score, p3);	
-					round.setBomb(SystemParameter.status_bomb_defused);
-					round.addEvent(bomb_defused);
-				}
-				else {
-					System.out.println("El jugador no se ha suicidado: "+he_suicided);
+					System.out.println("El jugador no ha plantado la bomba: "+he_plant_bomb);
 				}
 				
 			}	//End For Events
 			
 			
 			// Determinate who wins round
+			
+			
+			
+			System.out.println("Kills: " + round.getKillsCount());
+			System.out.println("Assists: " + round.getAssistsCount());
+			System.out.println("Teamkills: " + round.getTeamKillsCount());
+			System.out.println("PlantBomb: " + round.getPlantBombCount());
+			System.out.println("DefuseBomb: " + round.getDefuseBombCount());
+			System.out.println("Suicides: " + round.getSuicidesCount());
+			System.out.println("Deaths: " + round.getDeathsCount());
+			
 			
 			game.addRound(roundValidator.validateWinner(round));
 			

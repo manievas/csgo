@@ -1,27 +1,17 @@
 package com.csgo.entity;
 
-public class Assist extends Event{
+import com.csgo.counter.Counter;
 
-	private Player player;
+public class Assist extends Event{
 	
 	private int count;
 	
 	private int score;
 	
 	public Assist(int value, Player player, int count) {
-		super(value);		
-		this.player = player;
-		this.count = count;		
+		super(value, player);			
 		
 		calculateScore(value, this.count);	
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
 	}
 
 	public void calculateScore(int count, int value){
@@ -34,6 +24,12 @@ public class Assist extends Event{
 	
     @Override
     public String toString() {
-        return "Assist de " + this.player.getName() + " Score: " + getScore();
+        return "Event: Assist - Score: " + getScore();
     }
+
+	@Override
+	public int receiveCounter(Counter counter) {
+		// TODO Auto-generated method stub
+		return counter.count(this);
+	}
 }

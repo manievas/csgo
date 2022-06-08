@@ -1,23 +1,14 @@
 package com.csgo.entity;
 
+import com.csgo.counter.Counter;
+
 public class Death extends Event {
 
-	private Player player;
-	
 	private int score;
 	
 	public Death(int value, Player player) {
-		super(value);		
-		this.player = player;
+		super(value, player);
 		this.score = value;			
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
 	}
 	
 	public int getScore(){
@@ -26,6 +17,11 @@ public class Death extends Event {
 	
     @Override
     public String toString() {
-        return "Death " + this.player.getName() + " Score: " + getScore();
+        return "Event: Death - Score: " + getScore();
     }
+
+	@Override
+	public int receiveCounter(Counter counter) {
+		return counter.count(this);
+	}
 }
