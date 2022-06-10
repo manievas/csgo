@@ -5,7 +5,6 @@ import com.csgo.entity.Round;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.csgo.entity.CT;
 import com.csgo.entity.Event;
 import com.csgo.entity.Kill;
 import com.csgo.entity.Player;
@@ -41,7 +40,7 @@ public class RoundValidator {
 		return true;
 		
 	}
-	
+	/*
 	public Round validateWinner(Round round) {
 		
 		round.setWinner(validateDefuse(round));
@@ -51,7 +50,7 @@ public class RoundValidator {
 		return round;
 	}
 	
-	private Team validateDefuse(Round round) {
+	/*private Team validateDefuse(Round round) {
 		
 		/*List<Event> eventos = new ArrayList<Event>();
 		
@@ -70,11 +69,11 @@ public class RoundValidator {
 			return false;
 		
 			*/
-		
+	/*	
 		return round.getCT();
 		
 	}
-	
+	/*
 	private Team validateKills(Round round) {
 		
 		int total_kills_ct = 0, total_kills_tt = 0;
@@ -120,9 +119,9 @@ public class RoundValidator {
 			}
 			
 		}*/
-		return round.getTT();	
+		/*return round.getTT();	
 		
 	}
-	
+*/	
 
 }

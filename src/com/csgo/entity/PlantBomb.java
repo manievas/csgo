@@ -4,28 +4,17 @@ import com.csgo.counter.Counter;
 
 public class PlantBomb extends Event {
 
-	private int score;
-	
-	public PlantBomb(int value, Player player) {
-		super(value, player);
-		this.score = value;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
+	public PlantBomb(int value, Round round) {
+		super(value, round);
 	}
 
     @Override
     public String toString() {
-        return "Event: PlantBomb - Score: " + getScore();
+        return "Event: PlantBomb";
     }
 
 	@Override
 	public int receiveCounter(Counter counter) {
-		return counter.count(this);
+		return counter.receiveCounter(this);
 	}
 }

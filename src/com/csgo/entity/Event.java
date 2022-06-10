@@ -6,14 +6,15 @@ public abstract class Event {
 
 	private int value;
 		
-	private Player player;
+	private Round round;
 	
 	//Constructor
-	public Event(int value, Player player) {
+	public Event(int value, Round round) {
 		this.value = value;
-		this.player = player;
+		this.round = round;
 	}
 
+	//Methods
 	public int getValue() {
 		return value;
 	}
@@ -22,14 +23,13 @@ public abstract class Event {
 		this.value = value;
 	}
 
-	public Player getPlayer() {
-		return player;
+	public Round getRound() {
+		return round;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setRound(Round round) {
+		this.round = round;
 	}	
-	
 	
 	abstract public int receiveCounter(Counter counter);
 	

@@ -19,37 +19,37 @@ public class DeathCounter extends Counter{
 	}
 
 	@Override
-	public int count(Kill k) {
+	public int receiveCounter(Kill k) {
 		return 0;
 	}
 
 	@Override
-	public int count(Assist a) {
+	public int receiveCounter(Assist a) {
 		return 0;
 	}
 	
 	@Override
-	public int count(Death a) {
+	public int receiveCounter(Death a) {
 		return 1;
 	}
 	
 	@Override
-	public int count(DefuseBomb a) {
+	public int receiveCounter(DefuseBomb a) {
 		return 0;
 	}
 	
 	@Override
-	public int count(PlantBomb pb) {
+	public int receiveCounter(PlantBomb pb) {
 		return 0;
 	}
 	
 	@Override
-	public int count(Suicide s) {
+	public int receiveCounter(Suicide s) {
 		return 0;
 	}
 	
 	@Override
-	public int count(TeamKill tk) {
+	public int receiveCounter(TeamKill tk) {
 		return 0;
 	}
 	

@@ -4,24 +4,18 @@ import com.csgo.counter.Counter;
 
 public class Death extends Event {
 
-	private int score;
 	
-	public Death(int value, Player player) {
-		super(value, player);
-		this.score = value;			
+	public Death(int value, Round round) {
+		super(value, round);	
 	}
-	
-	public int getScore(){
-		return this.score;
-	}
-	
+		
     @Override
     public String toString() {
-        return "Event: Death - Score: " + getScore();
+        return "Event: Death";
     }
 
 	@Override
 	public int receiveCounter(Counter counter) {
-		return counter.count(this);
+		return counter.receiveCounter(this);
 	}
 }

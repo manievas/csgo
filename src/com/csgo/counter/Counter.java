@@ -11,51 +11,56 @@ import com.csgo.entity.Death;
 import com.csgo.entity.Suicide;
 import com.csgo.entity.TeamKill;
 
+import com.csgo.parameter.SystemParameter;
+
 public abstract class Counter {
 	
     private List<Event> events;
     
-    
-
     public Counter(List<Event> events){
         this.events = events;
     }
 
-    public int count(Kill k) {
+    public int receiveCounter(Kill k) {
 		return 0;
 	}
     
-    public int count(Assist a) {
+    public int receiveCounter(Assist a) {
 		return 0;
 	}
 
-    public int count(Death d) {
+    public int receiveCounter(Death d) {
 		return 0;
 	}
     
-    public int count(DefuseBomb db) {
+    public int receiveCounter(DefuseBomb db) {
 		return 0;
 	}
     
-    public int count(PlantBomb pb) {
+    public int receiveCounter(PlantBomb pb) {
 		return 0;
 	}
     
-    public int count(TeamKill tk) {
+    public int receiveCounter(TeamKill tk) {
 		return 0;
 	}
     
-    public int count(Suicide s) {
+    public int receiveCounter(Suicide s) {
 		return 0;
 	}
     
     public int doCount() {
     	int count = 0;
+    	
     	for(Event e: events) {
-            count += e.receiveCounter(this);
+    		if ( e.getRound().getStatus() == SystemParameter.status_start_round) {
+                count += e.receiveCounter(this);    			
+    		}
         }
     	
     	return count;
     }
+    
+    
     
 }

@@ -2,13 +2,12 @@ package com.csgo.parameter;
 
 public class SystemParameter {
 
-	public static int players_per_team = 1;
-	
-	public static String status_start_round = "IN GAME";
+	//String
+	public static String status_start_round = "INGAME";
 	
 	public static String status_end_round = "ENDED";
 	
-	public static String status_start_game = "IN GAME";
+	public static String status_start_game = "INGAME";
 			
     public static String status_end_game = "ENDED";
     
@@ -17,7 +16,28 @@ public class SystemParameter {
     public static String status_bomb_planted = "PLANTED";
 
     public static String status_bomb_defused = "DEFUSED";
+    
+    public static String ct_name = "CT";
+    
+    public static String tt_name = "TT";    
+    
+    public static String event_kill = "KILL";    
+    
+    public static String event_assist = "ASSIST";    
+    
+    public static String event_teamkill = "TEAMKILL";    
+    
+    public static String event_suicide = "SUICIDE";    
+    
+    public static String event_plantbomb = "PLANTBOMB";    
+    
+    public static String event_defusebomb = "DEFUSEBOMB";
+    
+    public static String event_death = "DEATH";    
 
+    //int
+    public static int players_per_team = 1;
+	
     public static int rounds_win_short_game = 9;
 
     public static int rounds_win_long_game = 16;

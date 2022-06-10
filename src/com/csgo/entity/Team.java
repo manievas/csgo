@@ -8,15 +8,17 @@ public class Team {
 	//Attributes
 	private String name;
 	
+	private String side;
+	
 	private List<Player> players;
 
 	//Constructor
-	public Team(List<Player> players, String name) {	
+	public Team(List<Player> players, String name, String side) {	
 		
 		this.players = new ArrayList<Player>();
-		
 		this.players = players;
 		this.name = name;
+		this.side = side;
 	}
 
 	//Methods
@@ -36,6 +38,11 @@ public class Team {
 		this.name = name;
 	}
 	
+	public String getSide()	{
+		return this.side;
+	}
 	
-
+	public void setSide(String side) {
+		this.side = side;
+	}
 }

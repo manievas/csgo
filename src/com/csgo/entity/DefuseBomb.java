@@ -3,29 +3,18 @@ package com.csgo.entity;
 import com.csgo.counter.Counter;
 
 public class DefuseBomb extends Event{
-	
-	private int score;
-	
-	public DefuseBomb(int value, Player player) {
-		super(value, player);
-		this.score = value;
+		
+	public DefuseBomb(int value, Round round) {
+		super(value, round);
 	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-	
+		
     @Override
     public String toString() {
-        return "Event: DefuseBomb - Score: " + getScore();
+        return "Event: DefuseBomb ";
     }
 
 	@Override
 	public int receiveCounter(Counter counter) {
-		return counter.count(this);
+		return counter.receiveCounter(this);
 	}
 }
