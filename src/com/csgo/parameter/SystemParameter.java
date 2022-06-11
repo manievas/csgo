@@ -36,7 +36,7 @@ public class SystemParameter {
     public static String event_death = "DEATH";    
 
     //int
-    public static int players_per_team = 1;
+    public static int players_per_team = 2;
 	
     public static int rounds_win_short_game = 9;
 
@@ -66,9 +66,13 @@ public class SystemParameter {
 	
 	public static int max_deaths_per_round = 5;
 	
-	public static int max_suicides_per_round = 5;
+	public static int max_suicide_per_round = 5;
 	
 	public static int max_teamkills_per_round = 4;
+	
+	public static int max_plantbomb_per_round = 1;
+	
+	public static int max_defusebomb_per_round = 1;
 	
 	public static int teams_per_game = 2;
 	

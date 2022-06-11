@@ -66,7 +66,7 @@ public class Player {
         return new AssistCounter(this.events).doCount();
 	}
 	
-	public int getSuicidesCount() {
+	public int getSuicideCount() {
         return new SuicideCounter(this.events).doCount();
 	}
 	
