@@ -4,7 +4,7 @@ import com.csgo.entity.*;
 import com.csgo.parameter.SystemConstant;
 import com.csgo.parameter.SystemParameter;
 
-public class RoundInputValidator {
+public class EventValidator {
 		
 	public boolean validateEvent(Team team, Player player, String event) {
 		

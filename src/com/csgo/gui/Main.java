@@ -8,7 +8,7 @@ import java.util.List;
 //Customs Packages
 import com.csgo.parameter.SystemParameter;
 import com.csgo.entity.*;
-import com.csgo.validator.*;
+import com.csgo.validator.EventValidator;
 
 public class Main {
 	
@@ -38,9 +38,10 @@ public class Main {
 		List<Player> players = null;
 		List<Team> teams = null;
 		
-		RoundInputValidator roundInputValidator = new RoundInputValidator();
 		
-        //Start
+		EventValidator EventValidator = new EventValidator();
+
+		//Start
 		System.out.println("-----------------------------------------------");
 		System.out.println("-Input Data -----------------------------------");
 		System.out.println("-----------------------------------------------");
@@ -64,9 +65,7 @@ public class Main {
 			if(t == 0) {
 				team_name = JOptionPane.showInputDialog("CT name: ");
 				side = SystemParameter.ct_name;			
-				team = new Team(players, team_name, side);
-				//Preguntar a gonza porque verga no puedo hacer clear o remove aca, sin que CT pierda la lista
-				//Gonza: Se le haces un new libera la referencia de la lista vieja				
+				team = new Team(players, team_name, side);		
 			}
 			else {
 				team_name = JOptionPane.showInputDialog("TT name: ");		
@@ -100,12 +99,13 @@ public class Main {
 				input_event = JOptionPane.showInputDialog("¿Desea ingresar un evento para el jugador " + pct.getName() + " esta ronda? (Y/N): ").charAt(0);
 
 				while (input_event == 'Y') {
-					event_type = JOptionPane.showInputDialog("Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, DEFUSEBOMB, SUICIDE): ");
+					
+					event_type = JOptionPane.showInputDialog("Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, DEFUSEBOMB, SUICIDE): ");
 					
 					if (event_type.equals(SystemParameter.event_kill)) {
 						kill = new Kill(SystemParameter.kill_score, round);	
 						
-						if (roundInputValidator.validateEvent(teams.get(0), pct, SystemParameter.event_kill)) {
+						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_kill)) {
 							pct.addEvent(kill);
 						}
 						else {
@@ -116,7 +116,7 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_assist)) {
 						assist = new Assist(SystemParameter.assist_score, round);	
 						
-						if (roundInputValidator.validateEvent(teams.get(0), pct, SystemParameter.event_assist)) {
+						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_assist)) {
 							pct.addEvent(assist);
 						}
 						else {
@@ -127,7 +127,7 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_teamkill)) {
 						teamKill = new TeamKill(SystemParameter.teamkill_score, round);	
 						
-						if (roundInputValidator.validateEvent(teams.get(0), pct, SystemParameter.event_teamkill)) {
+						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_teamkill)) {
 							pct.addEvent(teamKill);
 						}
 						else {
@@ -138,7 +138,7 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_suicide)){
 						suicide = new Suicide(SystemParameter.suicide_score, round);
 						
-						if (roundInputValidator.validateEvent(teams.get(0), pct, SystemParameter.event_suicide)) {
+						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_suicide)) {
 							pct.addEvent(suicide);
 						}
 						else {
@@ -149,7 +149,7 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_defusebomb)){
 						defuseBomb = new DefuseBomb(SystemParameter.defuse_bomb_score, round);	
 						
-						if (roundInputValidator.validateEvent(teams.get(0), pct, SystemParameter.event_defusebomb)) {
+						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_defusebomb)) {
 							pct.addEvent(defuseBomb);
 						}
 						else {
@@ -159,7 +159,7 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_death)){
 						death = new Death(SystemParameter.death_score, round);	
 						
-						if (roundInputValidator.validateEvent(teams.get(0), pct, SystemParameter.event_death)) {
+						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_death)) {
 							pct.addEvent(death);
 						}
 						else {
@@ -181,33 +181,73 @@ public class Main {
 				input_event = JOptionPane.showInputDialog("¿Desea ingresar un evento para el jugador " + ptt.getName() + " esta ronda? (Y/N): ").charAt(0);
 
 				while (input_event == 'Y') {
-					event_type = JOptionPane.showInputDialog("Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, DEFUSEBOMB, SUICIDE): ");
+					event_type = JOptionPane.showInputDialog("Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, SUICIDE): ");
 					
 					if (event_type.equals(SystemParameter.event_kill)) {
 						kill = new Kill(SystemParameter.kill_score, round);	
-						ptt.addEvent(kill);
+						
+						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_kill)) {
+							ptt.addEvent(kill);
+						}
+						else {
+							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de Muertes, el evento no se registrara");
+						}
+						
 					}
 					else if (event_type.equals(SystemParameter.event_assist)) {
 						assist = new Assist(SystemParameter.assist_score, round);	
-						ptt.addEvent(assist);					
+						
+						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_assist)) {
+							ptt.addEvent(assist);
+						}
+						else {
+							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de Asistencias, el evento no se registrara");
+						}
+											
 					}
 					else if (event_type.equals(SystemParameter.event_teamkill)) {
 						teamKill = new TeamKill(SystemParameter.teamkill_score, round);	
-						ptt.addEvent(teamKill);
+						
+						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_teamkill)) {
+							ptt.addEvent(teamKill);
+						}
+						else {
+							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de TeamKills, el evento no se registrara");
+						}
+						
 					}
 					else if (event_type.equals(SystemParameter.event_suicide)){
-						suicide = new Suicide(SystemParameter.suicide_score, round);	
-						ptt.addEvent(suicide);
+						suicide = new Suicide(SystemParameter.suicide_score, round);
+						
+						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_suicide)) {
+							ptt.addEvent(suicide);
+						}
+						else {
+							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de suicidios, el evento no se registrara");
+						}
+						
 					}					
 					else if (event_type.equals(SystemParameter.event_plantbomb)){
 						plantBomb = new PlantBomb(SystemParameter.plant_bomb_score, round);	
-						ptt.addEvent(plantBomb);
+						
+						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_plantbomb)) {
+							ptt.addEvent(plantBomb);
+						}
+						else {
+							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de defusebomb, el evento no se registrara");
+						}
 					}
 					else if (event_type.equals(SystemParameter.event_death)){
 						death = new Death(SystemParameter.death_score, round);	
-						ptt.addEvent(death);
+						
+						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_death)) {
+							ptt.addEvent(death);
+						}
+						else {
+							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de deaths, el evento no se registrara");
+						}
+						
 					}
-					
 					input_event = JOptionPane.showInputDialog("¿Desea ingresar un evento para el jugador " + ptt.getName() + " esta ronda? (Y/N): ").charAt(0);
 					
 				} //end while (input_event == 'Y')
@@ -237,8 +277,29 @@ public class Main {
 			System.out.println("Suicides: " + teams.get(0).getPlayers().get(1).getSuicideCount());
 			System.out.println("Deaths: " + teams.get(0).getPlayers().get(1).getDeathsCount());
 			
+			System.out.println(teams.get(1).getPlayers().get(0).getName() + " Events");
+			System.out.println("Kills: " + teams.get(1).getPlayers().get(0).getKillsCount());
+			System.out.println("Assists: " + teams.get(1).getPlayers().get(0).getAssistsCount());
+			System.out.println("Teamkills: " + teams.get(1).getPlayers().get(0).getTeamKillsCount());
+			System.out.println("PlantBomb: " + teams.get(1).getPlayers().get(0).getPlantBombCount());
+			System.out.println("DefuseBomb: " + teams.get(1).getPlayers().get(0).getDefuseBombCount());
+			System.out.println("Suicides: " + teams.get(1).getPlayers().get(0).getSuicideCount());
+			System.out.println("Deaths: " + teams.get(1).getPlayers().get(0).getDeathsCount());
+
+			System.out.println(teams.get(1).getPlayers().get(1).getName() + " Events");
+			System.out.println("Kills: " + teams.get(1).getPlayers().get(1).getKillsCount());
+			System.out.println("Assists: " + teams.get(1).getPlayers().get(1).getAssistsCount());
+			System.out.println("Teamkills: " + teams.get(1).getPlayers().get(1).getTeamKillsCount());
+			System.out.println("PlantBomb: " + teams.get(1).getPlayers().get(1).getPlantBombCount());
+			System.out.println("DefuseBomb: " + teams.get(1).getPlayers().get(1).getDefuseBombCount());
+			System.out.println("Suicides: " + teams.get(1).getPlayers().get(1).getSuicideCount());
+			System.out.println("Deaths: " + teams.get(1).getPlayers().get(1).getDeathsCount());
+			
 			
 			System.out.println("End Round");
+			
+		    // Determinate who win round
+			
 			
 			round.endRound(SystemParameter.status_end_round, teams.get(0));
 			
@@ -306,4 +367,5 @@ public class Main {
 		//}
 	}
 	
+
 }
