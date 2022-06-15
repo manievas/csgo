@@ -17,9 +17,9 @@ public class SystemParameter {
 
     public static String status_bomb_defused = "DEFUSED";
     
-    public static String ct_name = "CT";
+    public static String ct_side = "CT";
     
-    public static String tt_name = "TT";    
+    public static String tt_side = "TT";    
     
     public static String event_kill = "KILL";    
     
@@ -44,7 +44,7 @@ public class SystemParameter {
 
     public static int max_rounds_short_game = 16;
     
-    public static int max_rounds_long_game = 2;
+    public static int max_rounds_long_game = 5;
 
 	public static int kill_score = 2;
 	

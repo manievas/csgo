@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Customs Packages
-import com.csgo.parameter.SystemParameter;
+import com.csgo.parameter.*;
 import com.csgo.entity.*;
-import com.csgo.validator.EventValidator;
+import com.csgo.validator.*;
 
 public class Main {
 	
@@ -40,6 +40,8 @@ public class Main {
 		
 		
 		EventValidator EventValidator = new EventValidator();
+		RoundValidator RoundValidator = new RoundValidator();
+		
 
 		//Start
 		System.out.println("-----------------------------------------------");
@@ -64,12 +66,12 @@ public class Main {
 			
 			if(t == 0) {
 				team_name = JOptionPane.showInputDialog("CT name: ");
-				side = SystemParameter.ct_name;			
+				side = SystemParameter.ct_side;			
 				team = new Team(players, team_name, side);		
 			}
 			else {
 				team_name = JOptionPane.showInputDialog("TT name: ");		
-				side = SystemParameter.tt_name;
+				side = SystemParameter.tt_side;
 				team = new Team(players, team_name, side);				
 			}
 			
@@ -300,8 +302,7 @@ public class Main {
 			
 		    // Determinate who win round
 			
-			
-			round.endRound(SystemParameter.status_end_round, teams.get(0));
+			round.endRound(SystemParameter.status_end_round, RoundValidator.CalculateWinner(teams, round));
 			
 			game.addRound(round);
 			
@@ -325,7 +326,6 @@ public class Main {
 		} while (true);
 
 		System.out.println("End program");
-		//System.out.println("End program");
 		
 		//Quien gana la ronda?
 		
