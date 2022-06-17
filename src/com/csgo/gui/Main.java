@@ -16,11 +16,11 @@ public class Main {
 		
 		//Variables
 		//Default
-		int p, t;	
-		char input_event = 'N';
-		//char event_type;
+		int p, t, tt_wins = 0, ct_wins = 0, duration = 0;	
 		
 		//Objects
+		String team_name = null, side = null, event_type = null;
+
 		Player player = null;	
 		Kill kill = null;
 		Assist assist = null;
@@ -32,13 +32,14 @@ public class Main {
 		Game game = null; 
 		Round round = null;
 		Team team = null;
-		String team_name = null, side = null, event_type = null;
+		Map map = null;
 		
 		//Lists
 		List<Player> players = null;
 		List<Team> teams = null;
+		List<Team> winners = null;
 		
-		
+		//Instances
 		EventValidator EventValidator = new EventValidator();
 		RoundValidator RoundValidator = new RoundValidator();
 		
@@ -52,6 +53,7 @@ public class Main {
 		//Team
 		
 		teams = new ArrayList<Team>();
+		winners = new ArrayList<Team>();
 		
 		//Player
 		System.out.println("Entering Players");
@@ -81,13 +83,14 @@ public class Main {
 	
 		//Game
 		System.out.println("Creating Game");
-		game = new Game(JOptionPane.showInputDialog("Fecha del partido (DD-MM-YYYY)") , SystemParameter.status_start_game);
-
+		map = new Map(JOptionPane.showInputDialog("Ingrese el Mapa (INFERNO, DUST2, OVERPASS)"));
+		game = new Game(JOptionPane.showInputDialog("Fecha del partido (DD-MM-YYYY)") , SystemParameter.status_start_game, map);
+		
+		map = null;
+		
 		do {
 			//Round
 			System.out.println("Creating Round");
-			System.out.println("CT size: "+teams.get(0).getPlayers().size());
-			System.out.println("TT size: "+teams.get(1).getPlayers().size());
 			
 			round = new Round(SystemParameter.status_start_round);
 			
@@ -95,14 +98,13 @@ public class Main {
 			System.out.println("Entering Events");
 
 			//Arranca eventos CT
-			System.out.println("Arranca eventos CT");
+			System.out.println("Round "+ (game.getRounds().size()+1) + "CT Events");
 			
 			for (Player pct : teams.get(0).getPlayers()) {
-				input_event = JOptionPane.showInputDialog("¿Desea ingresar un evento para el jugador " + pct.getName() + " esta ronda? (Y/N): ").charAt(0);
-
-				while (input_event == 'Y') {
-					
-					event_type = JOptionPane.showInputDialog("Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, DEFUSEBOMB, SUICIDE): ");
+				
+				event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ pct.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, DEFUSEBOMB, SUICIDE), para salir ingrese N: ");
+				
+				while (!event_type.equals(String.valueOf(SystemConstant.c_n))) {
 					
 					if (event_type.equals(SystemParameter.event_kill)) {
 						kill = new Kill(SystemParameter.kill_score, round);	
@@ -170,21 +172,20 @@ public class Main {
 						
 					}
 					
-					input_event = JOptionPane.showInputDialog("¿Desea ingresar un evento para el jugador " + pct.getName() + " esta ronda? (Y/N): ").charAt(0);
-			
+					event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ pct.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, DEFUSEBOMB, SUICIDE), para salir ingrese N: ");
+						
 				} //end while (input_event == 'Y')
 
 			}//for (Player pct : teams.get(0).getPlayers())
 			
 			//Arranca eventos TT
-			System.out.println("Arranca eventos TT");
+			System.out.println("Round "+ (game.getRounds().size()+1) + "TT Events");
 			
 			for (Player ptt : teams.get(1).getPlayers()) {
-				input_event = JOptionPane.showInputDialog("¿Desea ingresar un evento para el jugador " + ptt.getName() + " esta ronda? (Y/N): ").charAt(0);
-
-				while (input_event == 'Y') {
-					event_type = JOptionPane.showInputDialog("Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, SUICIDE): ");
+				event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ ptt.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, SUICIDE), para salir ingrese N: ");
 					
+				while (!event_type.equals(String.valueOf(SystemConstant.c_n))) {
+						
 					if (event_type.equals(SystemParameter.event_kill)) {
 						kill = new Kill(SystemParameter.kill_score, round);	
 						
@@ -250,79 +251,68 @@ public class Main {
 						}
 						
 					}
-					input_event = JOptionPane.showInputDialog("¿Desea ingresar un evento para el jugador " + ptt.getName() + " esta ronda? (Y/N): ").charAt(0);
-					
-				} //end while (input_event == 'Y')
+
+					event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ ptt.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, SUICIDE), para salir ingrese N: ");
+				
+				} 
 			
-			} //for (Player ptt : teams.get(1).getPlayers()) {
+			} 
 			//End For Events
 			
-			
-			// Determinate who wins round
-			
-			
-			System.out.println(teams.get(0).getPlayers().get(0).getName() + " Events");
-			System.out.println("Kills: " + teams.get(0).getPlayers().get(0).getKillsCount());
-			System.out.println("Assists: " + teams.get(0).getPlayers().get(0).getAssistsCount());
-			System.out.println("Teamkills: " + teams.get(0).getPlayers().get(0).getTeamKillsCount());
-			System.out.println("PlantBomb: " + teams.get(0).getPlayers().get(0).getPlantBombCount());
-			System.out.println("DefuseBomb: " + teams.get(0).getPlayers().get(0).getDefuseBombCount());
-			System.out.println("Suicides: " + teams.get(0).getPlayers().get(0).getSuicideCount());
-			System.out.println("Deaths: " + teams.get(0).getPlayers().get(0).getDeathsCount());
-
-			System.out.println(teams.get(0).getPlayers().get(1).getName() + " Events");
-			System.out.println("Kills: " + teams.get(0).getPlayers().get(1).getKillsCount());
-			System.out.println("Assists: " + teams.get(0).getPlayers().get(1).getAssistsCount());
-			System.out.println("Teamkills: " + teams.get(0).getPlayers().get(1).getTeamKillsCount());
-			System.out.println("PlantBomb: " + teams.get(0).getPlayers().get(1).getPlantBombCount());
-			System.out.println("DefuseBomb: " + teams.get(0).getPlayers().get(1).getDefuseBombCount());
-			System.out.println("Suicides: " + teams.get(0).getPlayers().get(1).getSuicideCount());
-			System.out.println("Deaths: " + teams.get(0).getPlayers().get(1).getDeathsCount());
-			
-			System.out.println(teams.get(1).getPlayers().get(0).getName() + " Events");
-			System.out.println("Kills: " + teams.get(1).getPlayers().get(0).getKillsCount());
-			System.out.println("Assists: " + teams.get(1).getPlayers().get(0).getAssistsCount());
-			System.out.println("Teamkills: " + teams.get(1).getPlayers().get(0).getTeamKillsCount());
-			System.out.println("PlantBomb: " + teams.get(1).getPlayers().get(0).getPlantBombCount());
-			System.out.println("DefuseBomb: " + teams.get(1).getPlayers().get(0).getDefuseBombCount());
-			System.out.println("Suicides: " + teams.get(1).getPlayers().get(0).getSuicideCount());
-			System.out.println("Deaths: " + teams.get(1).getPlayers().get(0).getDeathsCount());
-
-			System.out.println(teams.get(1).getPlayers().get(1).getName() + " Events");
-			System.out.println("Kills: " + teams.get(1).getPlayers().get(1).getKillsCount());
-			System.out.println("Assists: " + teams.get(1).getPlayers().get(1).getAssistsCount());
-			System.out.println("Teamkills: " + teams.get(1).getPlayers().get(1).getTeamKillsCount());
-			System.out.println("PlantBomb: " + teams.get(1).getPlayers().get(1).getPlantBombCount());
-			System.out.println("DefuseBomb: " + teams.get(1).getPlayers().get(1).getDefuseBombCount());
-			System.out.println("Suicides: " + teams.get(1).getPlayers().get(1).getSuicideCount());
-			System.out.println("Deaths: " + teams.get(1).getPlayers().get(1).getDeathsCount());
-			
-			
+			printEvents(teams);
+				
 			System.out.println("End Round");
 			
 		    // Determinate who win round
 			
 			round.endRound(SystemParameter.status_end_round, RoundValidator.CalculateWinner(teams, round));
+
+			if (round.getWinner().getSide() == SystemParameter.ct_side) {
+				
+				ct_wins += 1;
+				
+			}
+			else if (round.getWinner().getSide() == SystemParameter.tt_side) {
+				
+				tt_wins += 1;
+				
+			}
 			
 			game.addRound(round);
 			
 			// Determinate if game was ended 
 	
-			
-			
 			if (game.getRounds().size() == SystemParameter.max_rounds_long_game) {
 				
 				System.out.println("Game Ended - TIE");
-				game.setStatus(SystemParameter.status_end_game);
+				duration = Integer.parseInt(JOptionPane.showInputDialog("Ingrese duracion (en MINUTOS)"));
+				game.endGame(SystemParameter.status_end_game, duration);
 				
 				break;
 			
 			}
-			else {
-				System.out.println("Game Ended - NO TIE");
+			else if (ct_wins == SystemParameter.rounds_win_long_game){
 				
-			}
+				System.out.println("Game Ended - CT WINS");
+				duration = Integer.parseInt(JOptionPane.showInputDialog("Ingrese duracion (en MINUTOS)"));
+				game.endGame(SystemParameter.status_end_game, duration);
+
+				break;
+
+			}				
 			
+			else if (tt_wins == SystemParameter.rounds_win_long_game){
+
+				System.out.println("Game Ended - TT WINS");
+				duration = Integer.parseInt(JOptionPane.showInputDialog("Ingrese duracion (en MINUTOS)"));
+				game.endGame(SystemParameter.status_end_game, duration);
+
+				break;
+
+			}				
+					
+			System.out.println("Next Round");
+
 		} while (true);
 
 		System.out.println("End program");
@@ -359,12 +349,48 @@ public class Main {
 		  // maximo de muertes
 		  // maximo de suicidios
 		  // maximo de teamkills
-		  
-			  
 		
-		//for (Event e : round.getEvents()) {	
-		//	System.out.println(e);
-		//}
+	
+	}
+	
+	private static void printEvents(List<Team> teams){
+		
+		System.out.println(teams.get(0).getPlayers().get(0).getName() + " Events");
+		System.out.println("Kills: " + teams.get(0).getPlayers().get(0).getKillsCount());
+		System.out.println("Assists: " + teams.get(0).getPlayers().get(0).getAssistsCount());
+		System.out.println("Teamkills: " + teams.get(0).getPlayers().get(0).getTeamKillsCount());
+		System.out.println("PlantBomb: " + teams.get(0).getPlayers().get(0).getPlantBombCount());
+		System.out.println("DefuseBomb: " + teams.get(0).getPlayers().get(0).getDefuseBombCount());
+		System.out.println("Suicides: " + teams.get(0).getPlayers().get(0).getSuicideCount());
+		System.out.println("Deaths: " + teams.get(0).getPlayers().get(0).getDeathsCount());
+
+		System.out.println(teams.get(0).getPlayers().get(1).getName() + " Events");
+		System.out.println("Kills: " + teams.get(0).getPlayers().get(1).getKillsCount());
+		System.out.println("Assists: " + teams.get(0).getPlayers().get(1).getAssistsCount());
+		System.out.println("Teamkills: " + teams.get(0).getPlayers().get(1).getTeamKillsCount());
+		System.out.println("PlantBomb: " + teams.get(0).getPlayers().get(1).getPlantBombCount());
+		System.out.println("DefuseBomb: " + teams.get(0).getPlayers().get(1).getDefuseBombCount());
+		System.out.println("Suicides: " + teams.get(0).getPlayers().get(1).getSuicideCount());
+		System.out.println("Deaths: " + teams.get(0).getPlayers().get(1).getDeathsCount());
+		
+		System.out.println(teams.get(1).getPlayers().get(0).getName() + " Events");
+		System.out.println("Kills: " + teams.get(1).getPlayers().get(0).getKillsCount());
+		System.out.println("Assists: " + teams.get(1).getPlayers().get(0).getAssistsCount());
+		System.out.println("Teamkills: " + teams.get(1).getPlayers().get(0).getTeamKillsCount());
+		System.out.println("PlantBomb: " + teams.get(1).getPlayers().get(0).getPlantBombCount());
+		System.out.println("DefuseBomb: " + teams.get(1).getPlayers().get(0).getDefuseBombCount());
+		System.out.println("Suicides: " + teams.get(1).getPlayers().get(0).getSuicideCount());
+		System.out.println("Deaths: " + teams.get(1).getPlayers().get(0).getDeathsCount());
+
+		System.out.println(teams.get(1).getPlayers().get(1).getName() + " Events");
+		System.out.println("Kills: " + teams.get(1).getPlayers().get(1).getKillsCount());
+		System.out.println("Assists: " + teams.get(1).getPlayers().get(1).getAssistsCount());
+		System.out.println("Teamkills: " + teams.get(1).getPlayers().get(1).getTeamKillsCount());
+		System.out.println("PlantBomb: " + teams.get(1).getPlayers().get(1).getPlantBombCount());
+		System.out.println("DefuseBomb: " + teams.get(1).getPlayers().get(1).getDefuseBombCount());
+		System.out.println("Suicides: " + teams.get(1).getPlayers().get(1).getSuicideCount());
+		System.out.println("Deaths: " + teams.get(1).getPlayers().get(1).getDeathsCount());
+		
 	}
 	
 

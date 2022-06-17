@@ -40,11 +40,11 @@ public class SystemParameter {
 	
     public static int rounds_win_short_game = 9;
 
-    public static int rounds_win_long_game = 16;
+    public static int rounds_win_long_game = 3;
 
     public static int max_rounds_short_game = 16;
     
-    public static int max_rounds_long_game = 5;
+    public static int max_rounds_long_game = 4;
 
 	public static int kill_score = 2;
 	

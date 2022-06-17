@@ -15,11 +15,11 @@ public class Game {
 	
 	private List<Round> rounds;
 	
-	
 	//Constructor
-	public Game(String date, String status) {
+	public Game(String date, String status, Map map) {
 		this.date = date;
 		this.status = status;		
+		this.map = map;
 		this.rounds = new ArrayList<Round>();
 	}
 
@@ -63,6 +63,13 @@ public class Game {
 	
 	public void addRound (Round round) {
 		this.rounds.add(round);
+	}
+	
+	public void endGame(String status, int duration) {
+		
+		setStatus(status);
+		setDuration(duration);
+		
 	}
 	
 	
