@@ -127,7 +127,7 @@ public class Main {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de Asistencias, el evento no se registrara");
 						}
 											
-					}
+					}  
 					else if (event_type.equals(SystemParameter.event_teamkill)) {
 						teamKill = new TeamKill(SystemParameter.teamkill_score, round);	
 						
@@ -195,6 +195,10 @@ public class Main {
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de Muertes, el evento no se registrara");
 						}
+						
+						//Actualizo el tablero
+						
+						
 						
 					}
 					else if (event_type.equals(SystemParameter.event_assist)) {
@@ -315,40 +319,17 @@ public class Main {
 
 		} while (true);
 
+		
+		System.out.println("Calculate Points");
+		
+		
+		
+		
+		
+		
 		System.out.println("End program");
+	
 		
-		//Quien gana la ronda?
-		
-		  //CT
-		    //Player vivo, Mata a 5, Bomba no plantada
-	        //Player vivo, bomba difuseada			
-		    //Player vivo, Tiempo finalizado, bomba no plantada
-		
-		  //TT
-		    //Player vivo, Mata a 5
-		    //Bomba explota
-		   
-		  //
-		
-			
-		// Si Contador de rondas (si cant rondas = 30)
-			//Partido terminado = Empate
-		 //Sino 
-		    //Si rondas ganadas equipo A = 16
-				//Partido terminado = Gano equipo A
-		    //Si rondas ganadas equipo B = 16
-		        //Partido terminado = Gano equipo B
-			//Sino 
-				//Jugar ronda
-		
-		
-		//¿Como se juega la ronda? (Reglas)
-	  	  //CT y TT
-		  // maximo de kills 
-		  // maximo de asistencias 
-		  // maximo de muertes
-		  // maximo de suicidios
-		  // maximo de teamkills
 		
 	
 	}
