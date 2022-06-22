@@ -58,32 +58,60 @@ public class Player {
 		return this.name;
 	}
 	
-	public int getKillsCount() {
-        return new KillCounter(this.events).doCount();
+	public int getKillsValue() {
+        return new KillCounter(this.events).doCount(k -> k.getValue());
     }
 
+	public int getKillsCount() {
+        return new KillCounter(this.events).doCount(k -> 1);
+    }
+
+	public int getAssistsValue() {
+        return new AssistCounter(this.events).doCount(k -> k.getValue());
+    }
+	
 	public int getAssistsCount() {
-        return new AssistCounter(this.events).doCount();
+        return new AssistCounter(this.events).doCount(k -> 1);
 	}
+	
+	public int getSuicideValue() {
+        return new SuicideCounter(this.events).doCount(k -> k.getValue());
+    }
 	
 	public int getSuicideCount() {
-        return new SuicideCounter(this.events).doCount();
+        return new SuicideCounter(this.events).doCount(k -> 1);
 	}
+	
+	public int getTeamKillsValue() {
+        return new TeamKillCounter(this.events).doCount(k -> k.getValue());
+    }
 	
 	public int getTeamKillsCount() {
-        return new TeamKillCounter(this.events).doCount();
+        return new TeamKillCounter(this.events).doCount(k -> 1);
 	}
+	
+	public int getDefuseBombValue() {
+        return new DefuseBombCounter(this.events).doCount(k -> k.getValue());
+    }
 	
 	public int getDefuseBombCount() {
-        return new DefuseBombCounter(this.events).doCount();
+        return new DefuseBombCounter(this.events).doCount(k -> 1);
 	}
+	
+	public int getPlantBombValue() {
+        return new PlantBombCounter(this.events).doCount(k -> k.getValue());
+    }
 	
 	public int getPlantBombCount() {
-        return new PlantBombCounter(this.events).doCount();
+        return new PlantBombCounter(this.events).doCount(k -> 1);
 	}
 	
+	public int getDeathsValue() {
+        return new DeathCounter(this.events).doCount(k -> k.getValue());
+    }
+	
 	public int getDeathsCount() {
-        return new DeathCounter(this.events).doCount();
+        return new DeathCounter(this.events).doCount(k -> 1);
 	}
 	
 }

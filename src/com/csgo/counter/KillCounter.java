@@ -17,40 +17,38 @@ public class KillCounter extends Counter {
 	public KillCounter(List<Event> events) {
 		super(events);
 	}
-
-	@Override
-	public int receiveCounter(Kill k) {
-		return 1;
+	
+	public int receiveCounter(Kill k, ParameterizedCounter f) {
+		return f.getCountValue(k);
 	}
-
-	@Override
-	public int receiveCounter(Assist a) {
-		return 0;
-	}
-
-	@Override
-	public int receiveCounter(Death d) {
+	
+	public int receiveCounter(Assist a, ParameterizedCounter f) {
 		return 0;
 	}
 	
-	@Override
-	public int receiveCounter(DefuseBomb db) {
+	public int receiveCounter(TeamKill tk, ParameterizedCounter f) {
 		return 0;
 	}
 	
-	@Override
-	public int receiveCounter(PlantBomb pb) {
+	public int receiveCounter(Suicide s, ParameterizedCounter f) {
 		return 0;
 	}
 	
-	@Override
-	public int receiveCounter(Suicide s) {
+	public int receiveCounter(Death d, ParameterizedCounter f) {
 		return 0;
 	}
 	
-	@Override
-	public int receiveCounter(TeamKill tk) {
+	public int receiveCounter(PlantBomb pb, ParameterizedCounter f) {
 		return 0;
 	}
+	
+	public int receiveCounter(DefuseBomb db, ParameterizedCounter f) {
+		return 0;
+	}
+	
 	
 }
+
+
+		
+		

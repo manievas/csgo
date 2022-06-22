@@ -1,6 +1,7 @@
 package com.csgo.entity;
 
 import com.csgo.counter.Counter;
+import com.csgo.counter.ParameterizedCounter;
 
 public abstract class Event {
 
@@ -31,6 +32,6 @@ public abstract class Event {
 		this.round = round;
 	}	
 	
-	abstract public int receiveCounter(Counter counter);
+	abstract public int receiveCounter(Counter counter, ParameterizedCounter f);
 	
 }

@@ -34,9 +34,11 @@ public class SystemParameter {
     public static String event_defusebomb = "DEFUSEBOMB";
     
     public static String event_death = "DEATH";    
+    
+    public static String event_all = "ALL";
 
     //int
-    public static int players_per_team = 2;
+    public static int players_per_team = 2;  
 	
     public static int rounds_win_short_game = 9;
 

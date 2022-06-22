@@ -43,7 +43,6 @@ public class Main {
 		EventValidator EventValidator = new EventValidator();
 		RoundValidator RoundValidator = new RoundValidator();
 		
-
 		//Start
 		System.out.println("-----------------------------------------------");
 		System.out.println("-Input Data -----------------------------------");
@@ -98,7 +97,7 @@ public class Main {
 			System.out.println("Entering Events");
 
 			//Arranca eventos CT
-			System.out.println("Round "+ (game.getRounds().size()+1) + "CT Events");
+			System.out.println("Round "+ (game.getRounds().size()+1) + "CT Events -------------------");
 			
 			for (Player pct : teams.get(0).getPlayers()) {
 				
@@ -179,7 +178,7 @@ public class Main {
 			}//for (Player pct : teams.get(0).getPlayers())
 			
 			//Arranca eventos TT
-			System.out.println("Round "+ (game.getRounds().size()+1) + "TT Events");
+			System.out.println("Round "+ (game.getRounds().size()+1) + "TT Events -------------------");
 			
 			for (Player ptt : teams.get(1).getPlayers()) {
 				event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ ptt.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, SUICIDE), para salir ingrese N: ");
@@ -319,13 +318,10 @@ public class Main {
 
 		} while (true);
 
+		GlobalVariables.gameEnded = SystemConstant.c_y;
 		
-		System.out.println("Calculate Points");
-		
-		
-		
-		
-		
+		printEvents(teams);
+		printScore(teams);
 		
 		System.out.println("End program");
 	
@@ -335,6 +331,8 @@ public class Main {
 	}
 	
 	private static void printEvents(List<Team> teams){
+		
+		System.out.println("Print Events ----------------");
 		
 		System.out.println(teams.get(0).getPlayers().get(0).getName() + " Events");
 		System.out.println("Kills: " + teams.get(0).getPlayers().get(0).getKillsCount());
@@ -372,7 +370,35 @@ public class Main {
 		System.out.println("Suicides: " + teams.get(1).getPlayers().get(1).getSuicideCount());
 		System.out.println("Deaths: " + teams.get(1).getPlayers().get(1).getDeathsCount());
 		
+		
 	}
+	
+	//PREGUNTAR A GONZA PORQUE VERGA ME PIDE EL ESTATI
+    public static void printScore(List<Team> teams){
+    	
+    	System.out.println("Print Score");
+		for (Team st : teams) {
+			
+			for (Player sp : st.getPlayers() ) {
+				System.out.println(sp.getName());
+				System.out.println("Kills: " + PlayerValidator.CalculateScore(sp, SystemParameter.event_kill));	
+				System.out.println("Assists: " + PlayerValidator.CalculateScore(sp, SystemParameter.event_assist));	
+				System.out.println("Teamkills: " + PlayerValidator.CalculateScore(sp, SystemParameter.event_teamkill));	
+				System.out.println("Suicides: " + PlayerValidator.CalculateScore(sp, SystemParameter.event_suicide));	
+				System.out.println("PlantBomb: " + PlayerValidator.CalculateScore(sp, SystemParameter.event_plantbomb));
+				System.out.println("DefuseBomb: " + PlayerValidator.CalculateScore(sp, SystemParameter.event_defusebomb));
+				System.out.println("Total: " + PlayerValidator.CalculateScore(sp, SystemParameter.event_all));	
+				
+			}
+			
+		}
+    }
+    
+    
+    //Ver cambio de side 
+    //printear ganador
+    //mvp por ronda
+    
 	
 
 }

@@ -17,38 +17,31 @@ public class AssistCounter extends Counter{
 		super(events);
 	}
 
-	@Override
-	public int receiveCounter(Kill k) {
-		return 0;
-	}
-
-	@Override
-	public int receiveCounter(Assist a) {
-		return 1;
-	}
-	
-	@Override
-	public int receiveCounter(Death a) {
+	public int receiveCounter(Kill k, ParameterizedCounter f) {
 		return 0;
 	}
 	
-	@Override
-	public int receiveCounter(DefuseBomb a) {
+	public int receiveCounter(Assist a, ParameterizedCounter f) {
+		return f.getCountValue(a);
+	}
+	
+	public int receiveCounter(TeamKill tk, ParameterizedCounter f) {
 		return 0;
 	}
 	
-	@Override
-	public int receiveCounter(PlantBomb a) {
+	public int receiveCounter(Suicide s, ParameterizedCounter f) {
 		return 0;
 	}
 	
-	@Override
-	public int receiveCounter(Suicide a) {
+	public int receiveCounter(Death d, ParameterizedCounter f) {
 		return 0;
 	}
 	
-	@Override
-	public int receiveCounter(TeamKill a) {
+	public int receiveCounter(PlantBomb pb, ParameterizedCounter f) {
+		return 0;
+	}
+	
+	public int receiveCounter(DefuseBomb db, ParameterizedCounter f) {
 		return 0;
 	}
 	

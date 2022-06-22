@@ -1,6 +1,7 @@
 package com.csgo.entity;
 
 import com.csgo.counter.Counter;
+import com.csgo.counter.ParameterizedCounter;
 
 public class DefuseBomb extends Event{
 		
@@ -14,7 +15,7 @@ public class DefuseBomb extends Event{
     }
 
 	@Override
-	public int receiveCounter(Counter counter) {
-		return counter.receiveCounter(this);
+	public int receiveCounter(Counter counter, ParameterizedCounter f) {
+		return counter.receiveCounter(this, f);
 	}
 }
