@@ -142,5 +142,32 @@ public class RoundValidator {
 		
 	}
 
-
+	public Player CalculateMVP(Team team, Round round) {
+		
+		Player playerMVP = null;
+		int score_max = 0;
+		int score_player = 0;
+		
+		for(Player p : team.getPlayers()) {
+			
+			score_player = p.getKillsValue() + 
+						   p.getAssistsValue() + 
+						   p.getPlantBombValue() + 
+						   p.getDefuseBombValue() + 
+						   p.getSuicideValue() +
+						   p.getTeamKillsValue();
+			
+			
+		    if(score_max <= score_player) {
+				
+				score_max = score_player;
+				playerMVP = p; 	
+			    
+		    }
+				
+		}
+		
+		return playerMVP;
+		
+	}
 }

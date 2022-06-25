@@ -16,7 +16,7 @@ public class Main {
 		
 		//Variables
 		//Default
-		int p, t, tt_wins = 0, ct_wins = 0, duration = 0;	
+		int p, t, t1_wins = 0, t2_wins = 0, duration = 0;	
 		
 		//Objects
 		String team_name = null, side = null, event_type = null;
@@ -88,6 +88,14 @@ public class Main {
 		map = null;
 		
 		do {
+			if (game.getRounds().size() == SystemParameter.round_change_side_long)
+			{
+				//Change Side
+				teams.get(0).changeSide(SystemParameter.tt_side);
+				teams.get(1).changeSide(SystemParameter.ct_side);
+				
+			}
+			
 			//Round
 			System.out.println("Creating Round");
 			
@@ -99,17 +107,17 @@ public class Main {
 			//Arranca eventos CT
 			System.out.println("Round "+ (game.getRounds().size()+1) + "CT Events -------------------");
 			
-			for (Player pct : teams.get(0).getPlayers()) {
+			for (Player pt1 : teams.get(0).getPlayers()) {
 				
-				event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ pct.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, DEFUSEBOMB, SUICIDE), para salir ingrese N: ");
+				event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ pt1.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, DEFUSEBOMB, SUICIDE), para salir ingrese N: ");
 				
 				while (!event_type.equals(String.valueOf(SystemConstant.c_n))) {
 					
 					if (event_type.equals(SystemParameter.event_kill)) {
 						kill = new Kill(SystemParameter.kill_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_kill)) {
-							pct.addEvent(kill);
+						if (EventValidator.validateEvent(teams.get(0), pt1, SystemParameter.event_kill)) {
+							pt1.addEvent(kill);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de Muertes, el evento no se registrara");
@@ -119,8 +127,8 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_assist)) {
 						assist = new Assist(SystemParameter.assist_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_assist)) {
-							pct.addEvent(assist);
+						if (EventValidator.validateEvent(teams.get(0), pt1, SystemParameter.event_assist)) {
+							pt1.addEvent(assist);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de Asistencias, el evento no se registrara");
@@ -130,8 +138,8 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_teamkill)) {
 						teamKill = new TeamKill(SystemParameter.teamkill_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_teamkill)) {
-							pct.addEvent(teamKill);
+						if (EventValidator.validateEvent(teams.get(0), pt1, SystemParameter.event_teamkill)) {
+							pt1.addEvent(teamKill);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de TeamKills, el evento no se registrara");
@@ -141,19 +149,29 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_suicide)){
 						suicide = new Suicide(SystemParameter.suicide_score, round);
 						
-						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_suicide)) {
-							pct.addEvent(suicide);
+						if (EventValidator.validateEvent(teams.get(0), pt1, SystemParameter.event_suicide)) {
+							pt1.addEvent(suicide);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de suicidios, el evento no se registrara");
 						}
 						
-					}					
-					else if (event_type.equals(SystemParameter.event_defusebomb)){
+					}		
+					else if (event_type.equals(SystemParameter.event_plantbomb) && (teams.get(0).getSide() == SystemParameter.tt_side)){						
+						plantBomb = new PlantBomb(SystemParameter.plant_bomb_score, round);	
+						
+						if (EventValidator.validateEvent(teams.get(0), pt1, SystemParameter.event_plantbomb)) {
+							pt1.addEvent(plantBomb);
+						}
+						else {
+							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de defusebomb, el evento no se registrara");
+						}
+					}
+					else if (event_type.equals(SystemParameter.event_defusebomb) && (teams.get(0).getSide() == SystemParameter.ct_side)){		
 						defuseBomb = new DefuseBomb(SystemParameter.defuse_bomb_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_defusebomb)) {
-							pct.addEvent(defuseBomb);
+						if (EventValidator.validateEvent(teams.get(0), pt1, SystemParameter.event_defusebomb)) {
+							pt1.addEvent(defuseBomb);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de defusebomb, el evento no se registrara");
@@ -162,8 +180,8 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_death)){
 						death = new Death(SystemParameter.death_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(0), pct, SystemParameter.event_death)) {
-							pct.addEvent(death);
+						if (EventValidator.validateEvent(teams.get(0), pt1, SystemParameter.event_death)) {
+							pt1.addEvent(death);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de deaths, el evento no se registrara");
@@ -171,7 +189,7 @@ public class Main {
 						
 					}
 					
-					event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ pct.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, DEFUSEBOMB, SUICIDE), para salir ingrese N: ");
+					event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ pt1.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, DEFUSEBOMB, SUICIDE), para salir ingrese N: ");
 						
 				} //end while (input_event == 'Y')
 
@@ -180,31 +198,27 @@ public class Main {
 			//Arranca eventos TT
 			System.out.println("Round "+ (game.getRounds().size()+1) + "TT Events -------------------");
 			
-			for (Player ptt : teams.get(1).getPlayers()) {
-				event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ ptt.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, SUICIDE), para salir ingrese N: ");
+			for (Player pt2 : teams.get(1).getPlayers()) {
+				event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ pt2.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, DEFUSEBOMB, SUICIDE), para salir ingrese N: ");
 					
 				while (!event_type.equals(String.valueOf(SystemConstant.c_n))) {
 						
 					if (event_type.equals(SystemParameter.event_kill)) {
 						kill = new Kill(SystemParameter.kill_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_kill)) {
-							ptt.addEvent(kill);
+						if (EventValidator.validateEvent(teams.get(1), pt2, SystemParameter.event_kill)) {
+							pt2.addEvent(kill);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de Muertes, el evento no se registrara");
 						}
 						
-						//Actualizo el tablero
-						
-						
-						
 					}
 					else if (event_type.equals(SystemParameter.event_assist)) {
 						assist = new Assist(SystemParameter.assist_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_assist)) {
-							ptt.addEvent(assist);
+						if (EventValidator.validateEvent(teams.get(1), pt2, SystemParameter.event_assist)) {
+							pt2.addEvent(assist);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de Asistencias, el evento no se registrara");
@@ -214,8 +228,8 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_teamkill)) {
 						teamKill = new TeamKill(SystemParameter.teamkill_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_teamkill)) {
-							ptt.addEvent(teamKill);
+						if (EventValidator.validateEvent(teams.get(1), pt2, SystemParameter.event_teamkill)) {
+							pt2.addEvent(teamKill);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de TeamKills, el evento no se registrara");
@@ -225,19 +239,29 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_suicide)){
 						suicide = new Suicide(SystemParameter.suicide_score, round);
 						
-						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_suicide)) {
-							ptt.addEvent(suicide);
+						if (EventValidator.validateEvent(teams.get(1), pt2, SystemParameter.event_suicide)) {
+							pt2.addEvent(suicide);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de suicidios, el evento no se registrara");
 						}
 						
 					}					
-					else if (event_type.equals(SystemParameter.event_plantbomb)){
+					else if (event_type.equals(SystemParameter.event_plantbomb) && (teams.get(1).getSide() == SystemParameter.tt_side)){		
 						plantBomb = new PlantBomb(SystemParameter.plant_bomb_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_plantbomb)) {
-							ptt.addEvent(plantBomb);
+						if (EventValidator.validateEvent(teams.get(1), pt2, SystemParameter.event_plantbomb)) {
+							pt2.addEvent(plantBomb);
+						}
+						else {
+							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de defusebomb, el evento no se registrara");
+						}
+					}
+					else if (event_type.equals(SystemParameter.event_defusebomb) && (teams.get(1).getSide() == SystemParameter.ct_side)){		
+						defuseBomb = new DefuseBomb(SystemParameter.defuse_bomb_score, round);	
+						
+						if (EventValidator.validateEvent(teams.get(1), pt2, SystemParameter.event_defusebomb)) {
+							pt2.addEvent(defuseBomb);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de defusebomb, el evento no se registrara");
@@ -246,8 +270,8 @@ public class Main {
 					else if (event_type.equals(SystemParameter.event_death)){
 						death = new Death(SystemParameter.death_score, round);	
 						
-						if (EventValidator.validateEvent(teams.get(1), ptt, SystemParameter.event_death)) {
-							ptt.addEvent(death);
+						if (EventValidator.validateEvent(teams.get(1), pt2, SystemParameter.event_death)) {
+							pt2.addEvent(death);
 						}
 						else {
 							 JOptionPane.showMessageDialog(null, "Ha alcanzado el limite de deaths, el evento no se registrara");
@@ -255,31 +279,43 @@ public class Main {
 						
 					}
 
-					event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ ptt.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, SUICIDE), para salir ingrese N: ");
+					event_type = JOptionPane.showInputDialog("Round: "+ (game.getRounds().size()+1) +" Player: "+ pt2.getName() + "   | Tipo de evento (KILL, TEAMKILL, DEATH, ASSIST, PLANTBOMB, DEFUSEBOMB, SUICIDE), para salir ingrese N: ");
 				
 				} 
 			
 			} 
 			//End For Events
-			
-			printEvents(teams);
-				
-			System.out.println("End Round");
-			
+		
 		    // Determinate who win round
 			
-			round.endRound(SystemParameter.status_end_round, RoundValidator.CalculateWinner(teams, round));
+			round.setWinner(RoundValidator.CalculateWinner(teams, round));
 
-			if (round.getWinner().getSide() == SystemParameter.ct_side) {
+			round.setMVP(RoundValidator.CalculateMVP(round.getWinner(), round));
+		
+			round.endRound(SystemParameter.status_end_round);
+			
+			//printEvents(teams);
+			
+			System.out.println("MVP: " + round.getMVP().getName());
+			System.out.println("Winner: " + round.getWinner().getName());
+			
+			
+		
+			
+			
+			
+		    if (round.getWinner().getName().equals(teams.get(0).getName())) {
+					
+		    	t1_wins += 1;	    	
+		    	
+		    }
+			else if (round.getWinner().getName().equals(teams.get(1).getName())) {
 				
-				ct_wins += 1;
+				t2_wins += 1;
 				
 			}
-			else if (round.getWinner().getSide() == SystemParameter.tt_side) {
-				
-				tt_wins += 1;
-				
-			}
+			
+			System.out.println("SCORE: " + teams.get(0).getName() + "  " + t1_wins + " - " + t2_wins + "  " + teams.get(1).getName() );
 			
 			game.addRound(round);
 			
@@ -294,9 +330,9 @@ public class Main {
 				break;
 			
 			}
-			else if (ct_wins == SystemParameter.rounds_win_long_game){
+			else if (t1_wins == SystemParameter.rounds_win_long_game){
 				
-				System.out.println("Game Ended - CT WINS");
+				System.out.println("Game Ended - " + teams.get(0).getName() + " WINS");
 				duration = Integer.parseInt(JOptionPane.showInputDialog("Ingrese duracion (en MINUTOS)"));
 				game.endGame(SystemParameter.status_end_game, duration);
 
@@ -304,16 +340,18 @@ public class Main {
 
 			}				
 			
-			else if (tt_wins == SystemParameter.rounds_win_long_game){
+			else if (t2_wins == SystemParameter.rounds_win_long_game){
 
-				System.out.println("Game Ended - TT WINS");
+				System.out.println("Game Ended - "+ teams.get(1).getName() +" WINS");
 				duration = Integer.parseInt(JOptionPane.showInputDialog("Ingrese duracion (en MINUTOS)"));
 				game.endGame(SystemParameter.status_end_game, duration);
 
 				break;
 
-			}				
+			}	
 					
+			System.out.println("End Round");
+			
 			System.out.println("Next Round");
 
 		} while (true);
@@ -322,11 +360,8 @@ public class Main {
 		
 		printEvents(teams);
 		printScore(teams);
-		
+
 		System.out.println("End program");
-	
-		
-		
 	
 	}
 	
@@ -394,11 +429,6 @@ public class Main {
 		}
     }
     
-    
-    //Ver cambio de side 
-    //printear ganador
     //mvp por ronda
-    
-	
 
 }

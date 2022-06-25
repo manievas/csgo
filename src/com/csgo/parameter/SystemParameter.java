@@ -48,7 +48,11 @@ public class SystemParameter {
     
     public static int max_rounds_long_game = 4;
 
-	public static int kill_score = 2;
+    public static int round_change_side_long = 2;
+
+    public static int round_change_side_shot = 8;
+
+    public static int kill_score = 2;
 	
 	public static int assist_score = 1;
 	

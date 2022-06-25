@@ -42,7 +42,7 @@ public class Team {
 		return this.side;
 	}
 	
-	public void setSide(String side) {
+	public void changeSide(String side) {
 		this.side = side;
 	}
 }

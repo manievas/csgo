@@ -6,6 +6,8 @@ public class Round {
 	private String status;
 	
 	private Team winner;
+	
+	private Player MVP;
 
 	//Constructor
 	public Round(String status) {
@@ -25,9 +27,16 @@ public class Round {
 		return this.status;
 	}
 
-	public void endRound(String status, Team winner)	{
+	public void endRound(String status)	{
 		this.status = status;
-		this.winner = winner;
+	}
+	
+	public Player getMVP() {
+		return this.MVP;
+	}
+
+	public void setMVP(Player player)	{
+		this.MVP = player;
 	}
 	
 }
